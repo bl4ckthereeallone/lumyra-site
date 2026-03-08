@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lumyra Key Generator</title>
     <style>
-        /* All your existing styles here - keep them exactly as you had */
         * {
             margin: 0;
             padding: 0;
@@ -245,57 +244,67 @@
         const API_URL = 'https://lumyra-api.up.railway.app';
         
         async function generateKey() {
+            const generateBtn = document.getElementById('generateBtn');
+            const warningDiv = document.getElementById('warning');
+            
+            // Check for existing key
             const existingKey = getStoredKey();
             if (existingKey && !isKeyExpired(existingKey.timestamp)) {
-                showWarning('You already have a valid key! Wait 24 hours for a new one.');
+                showWarning('You already have a valid key! It expires in ' + getTimeRemaining(existingKey.timestamp));
                 return;
             }
-
-            const generateBtn = document.getElementById('generateBtn');
+            
+            // Show loading
             const originalText = generateBtn.innerHTML;
             generateBtn.innerHTML = '<span class="loading"></span> Generating...';
             generateBtn.disabled = true;
+            hideWarning();
             
             try {
+                console.log('Calling API...');
                 const response = await fetch(`${API_URL}/generate-key`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 });
-
+                
+                console.log('Response status:', response.status);
                 const data = await response.json();
+                console.log('Response data:', data);
                 
                 if (!response.ok) {
-                    throw new Error(data.error || 'Failed to generate key');
+                    throw new Error(data.error || `HTTP error ${response.status}`);
                 }
                 
                 if (!data.key) {
                     throw new Error('No key received from server');
                 }
-
-                const timestamp = Date.now();
+                
+                // Save to localStorage
                 const keyData = {
                     key: data.key,
-                    timestamp: timestamp,
-                    expiresIn: 24 * 60 * 60 * 1000
+                    timestamp: Date.now()
                 };
-                
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(keyData));
                 
+                // Display the key
                 document.getElementById('keyDisplay').textContent = data.key;
                 document.getElementById('keyContainer').style.display = 'block';
-                hideWarning();
+                
+                // Reset copy button
+                document.getElementById('copyBtn').innerHTML = '<span>📋</span> Copy Key';
+                document.getElementById('copyBtn').classList.remove('copied');
                 
             } catch (error) {
                 console.error('Error:', error);
-                showWarning('Failed to generate key. Please try again.');
+                showWarning('Failed to generate key: ' + error.message);
             } finally {
                 generateBtn.innerHTML = originalText;
                 generateBtn.disabled = false;
             }
         }
-
+        
         function getStoredKey() {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (!stored) return null;
@@ -305,11 +314,21 @@
                 return null;
             }
         }
-
+        
         function isKeyExpired(timestamp) {
-            return (Date.now() - timestamp) >= (24 * 60 * 60 * 1000);
+            const age = Date.now() - timestamp;
+            return age >= (24 * 60 * 60 * 1000);
         }
-
+        
+        function getTimeRemaining(timestamp) {
+            const remaining = (24 * 60 * 60 * 1000) - (Date.now() - timestamp);
+            if (remaining <= 0) return 'Expired';
+            
+            const hours = Math.floor(remaining / (60 * 60 * 1000));
+            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+            return `${hours}h ${minutes}m`;
+        }
+        
         function copyKey() {
             const keyText = document.getElementById('keyDisplay').textContent;
             navigator.clipboard.writeText(keyText).then(() => {
@@ -323,17 +342,18 @@
                 }, 2000);
             });
         }
-
+        
         function showWarning(message) {
             const warning = document.getElementById('warning');
             warning.textContent = message;
             warning.classList.add('show');
         }
-
+        
         function hideWarning() {
             document.getElementById('warning').classList.remove('show');
         }
-
+        
+        // Check for existing key on load
         window.onload = function() {
             const existingKey = getStoredKey();
             if (existingKey && !isKeyExpired(existingKey.timestamp)) {
