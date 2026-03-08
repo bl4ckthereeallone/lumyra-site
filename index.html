@@ -3,308 +3,470 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumyra Key Generator</title>
+    <title>Lumyra · license</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #080808;
+            --surface: #0f0f0f;
+            --surface-2: #141414;
+            --border: rgba(255,255,255,0.06);
+            --border-hover: rgba(255,255,255,0.12);
+            --accent: #6270f5;
+            --accent-dim: rgba(98, 112, 245, 0.12);
+            --text-primary: #f2f2f2;
+            --text-secondary: #6a6a6a;
+            --text-muted: #3a3a3a;
+            --green: #4caf7d;
+            --green-dim: rgba(76, 175, 125, 0.1);
+            --red-dim: rgba(255, 90, 90, 0.08);
+            --red: #ff7070;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            background: var(--bg);
+            font-family: 'DM Sans', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 1.5rem;
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
         }
-        .container {
-            background: #1e1e1e;
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 520px;
+
+        /* Subtle background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 18px;
+            padding: 2rem;
+            max-width: 440px;
             width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid #2d2d2d;
+            border: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+            animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(16px) scale(0.98); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Top glow */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        /* ── Header ── */
         .header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
+
         .logo {
-            width: 40px;
-            height: 40px;
-            background: #5b6bf8;
-            border-radius: 10px;
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: var(--accent-dim);
+            border: 1px solid rgba(98, 112, 245, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 20px;
-            color: white;
-            box-shadow: 0 10px 20px -5px rgba(91, 107, 248, 0.3);
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: -0.02em;
         }
+
+        .header-title {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
         h1 {
-            color: white;
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
         }
+
         h1 span {
-            color: #5b6bf8;
+            color: var(--accent);
         }
-        .subtitle {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #2d2d2d;
-        }
-        .key-container {
-            background: #141414;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid #2d2d2d;
-            text-align: center;
-            display: none;
-        }
-        .key-label {
-            color: #888;
-            font-size: 12px;
+
+        .badge {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            color: var(--text-secondary);
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            padding: 0.18rem 0.55rem;
+            border-radius: 4px;
         }
-        .key-value {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 20px;
-            font-weight: bold;
-            color: #5b6bf8;
-            background: #0a0a0a;
-            padding: 20px;
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0 0 1.75rem 0;
+        }
+
+        /* ── Key section ── */
+        .key-section {
+            margin-bottom: 1.25rem;
+            animation: fadeSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .key-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+            font-weight: 500;
+        }
+
+        .key-wrapper {
+            background: var(--bg);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            border: 1px solid #2d2d2d;
-            word-break: break-all;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-        .copy-btn {
-            background: #2d2d2d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        .copy-btn:hover {
-            background: #3d3d3d;
-        }
-        .copy-btn.copied {
-            background: #3dd68c;
-            color: #0a0a0a;
-        }
-        .generate-btn {
-            width: 100%;
-            background: #5b6bf8;
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 14px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .generate-btn:hover {
-            background: #6b7bff;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -10px rgba(91, 107, 248, 0.4);
-        }
-        .generate-btn:disabled {
-            background: #2d2d2d;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .info-box {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid #2d2d2d;
-        }
-        .info-item {
+            padding: 1rem 1.25rem;
             display: flex;
             align-items: center;
-            gap: 12px;
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 12px;
+            justify-content: space-between;
+            gap: 1rem;
+            transition: border-color 0.2s ease;
         }
-        .info-item:last-child {
-            margin-bottom: 0;
+
+        .key-wrapper:hover {
+            border-color: var(--border-hover);
         }
-        .info-icon {
-            color: #5b6bf8;
-            font-weight: bold;
-            font-size: 16px;
+
+        .key-value {
+            font-family: 'Geist Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #c8c8c8;
+            word-break: break-all;
+            letter-spacing: 0.03em;
+            flex: 1;
+            line-height: 1.5;
         }
+
+        .key-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .copy-btn {
+            background: var(--surface-2);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.85rem;
+            border-radius: 7px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            white-space: nowrap;
+        }
+
+        .copy-btn:hover {
+            background: #1c1c1c;
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+
+        .copy-btn.copied {
+            background: var(--green-dim);
+            border-color: rgba(76, 175, 125, 0.2);
+            color: var(--green);
+        }
+
+        .expiry-pill {
+            font-size: 0.65rem;
+            font-weight: 500;
+            font-family: 'Geist Mono', monospace;
+            color: var(--accent);
+            background: var(--accent-dim);
+            border: 1px solid rgba(98, 112, 245, 0.18);
+            padding: 0.25rem 0.6rem;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        /* ── Generate button ── */
+        .generate-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.875rem;
+            border-radius: 11px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            background: #717fff;
+            transform: translateY(-1px);
+        }
+
+        .generate-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .generate-btn:disabled {
+            background: var(--surface-2);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            border: 1px solid var(--border);
+        }
+
+        /* ── Warning ── */
         .warning {
-            background: rgba(255, 95, 87, 0.1);
-            border: 1px solid rgba(255, 95, 87, 0.3);
-            border-radius: 10px;
-            padding: 12px 15px;
-            color: #ff5f57;
-            font-size: 13px;
-            margin: 15px 0;
+            border-radius: 9px;
+            padding: 0.7rem 1rem;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
             display: none;
+            align-items: center;
+            gap: 0.5rem;
+            line-height: 1.4;
+            animation: fadeIn 0.25s ease;
         }
-        .warning.show {
-            display: block;
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
         }
+
+        .warning.show { display: flex; }
+
+        /* ── Features ── */
+        .features {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            background: var(--bg);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 400;
+        }
+
+        .feature-dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: var(--accent);
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        /* ── Spinner ── */
         .loading {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.3);
+            width: 13px;
+            height: 13px;
+            border: 1.5px solid rgba(255,255,255,0.15);
             border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 8px;
+            border-top-color: rgba(255,255,255,0.7);
+            animation: spin 0.65s linear infinite;
+            vertical-align: middle;
         }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* ── Footer ── */
         .footer {
             text-align: center;
-            color: #666;
-            font-size: 12px;
-            margin-top: 25px;
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            margin-top: 1.5rem;
+            letter-spacing: 0.04em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="card">
         <div class="header">
             <div class="logo">L</div>
-            <h1>Lum<span>yra</span></h1>
+            <div class="header-title">
+                <h1>lumyra<span>.</span></h1>
+                <span class="badge">license</span>
+            </div>
         </div>
-        
-        <div class="subtitle">License Key Generator · 24h Validity</div>
 
-        <div class="key-container" id="keyContainer" style="display: none;">
-            <div class="key-label">YOUR LICENSE KEY</div>
-            <div class="key-value" id="keyDisplay"></div>
-            <button class="copy-btn" id="copyBtn" onclick="copyKey()">
-                <span>📋</span> Copy Key
-            </button>
+        <div class="divider"></div>
+
+        <div class="key-section" id="keySection" style="display: none;">
+            <div class="key-label">Active key</div>
+            <div class="key-wrapper">
+                <div class="key-value" id="keyDisplay"></div>
+                <div class="key-actions">
+                    <span class="expiry-pill" id="expiryBadge">24h</span>
+                    <button class="copy-btn" id="copyBtn" onclick="copyKey()">
+                        Copy
+                    </button>
+                </div>
+            </div>
         </div>
 
         <button class="generate-btn" id="generateBtn" onclick="generateKey()">
-            Generate New Key
+            Generate license key
         </button>
 
-        <div class="warning" id="warning"></div>
+        <div class="warning" id="warning">
+            <span id="warningMessage"></span>
+        </div>
 
-        <div class="info-box">
-            <div class="info-item">
-                <span class="info-icon">⏰</span>
-                <span>Keys expire after 24 hours</span>
+        <div class="features">
+            <div class="feature-item">
+                <span class="feature-dot"></span>
+                Keys expire after 24 hours
             </div>
-            <div class="info-item">
-                <span class="info-icon">💾</span>
-                <span>One key per browser (local storage)</span>
+            <div class="feature-item">
+                <span class="feature-dot"></span>
+                One key per browser
             </div>
-            <div class="info-item">
-                <span class="info-icon">🔒</span>
-                <span>HWID locked when used in app</span>
-            </div>
-            <div class="info-item">
-                <span class="info-icon">📋</span>
-                <span>Copy your key before closing</span>
+            <div class="feature-item">
+                <span class="feature-dot"></span>
+                HWID locked on first use
             </div>
         </div>
 
-        <div class="footer">
-            Lumyra Key System © 2025 · v1.0
-        </div>
+        <div class="footer">Lumyra · license system</div>
     </div>
 
     <script>
-        const STORAGE_KEY = 'lumyra_key_data';
+        const STORAGE_KEY = 'lumyra_license';
         const API_URL = 'https://lumyra-api.up.railway.app';
-        
+
         async function generateKey() {
             const generateBtn = document.getElementById('generateBtn');
-            const warningDiv = document.getElementById('warning');
             
-            // Check for existing key
-            const existingKey = getStoredKey();
-            if (existingKey && !isKeyExpired(existingKey.timestamp)) {
-                showWarning('You already have a valid key! It expires in ' + getTimeRemaining(existingKey.timestamp));
+            // Check existing
+            const existing = getStoredKey();
+            if (existing && !isExpired(existing.timestamp)) {
+                showWarning('You already have an active key', false);
                 return;
             }
-            
-            // Show loading
-            const originalText = generateBtn.innerHTML;
-            generateBtn.innerHTML = '<span class="loading"></span> Generating...';
+
+            // Loading state
+            const originalText = generateBtn.textContent;
+            generateBtn.innerHTML = '<span class="loading"></span> Generating…';
             generateBtn.disabled = true;
             hideWarning();
-            
+
             try {
-                console.log('Calling API...');
-                const response = await fetch(`${API_URL}/generate-key`, {
+                const res = await fetch(`${API_URL}/generate-key`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    headers: { 'Content-Type': 'application/json' }
                 });
+
+                const data = await res.json();
                 
-                console.log('Response status:', response.status);
-                const data = await response.json();
-                console.log('Response data:', data);
-                
-                if (!response.ok) {
-                    throw new Error(data.error || `HTTP error ${response.status}`);
-                }
-                
-                if (!data.key) {
-                    throw new Error('No key received from server');
-                }
-                
-                // Save to localStorage
+                if (!res.ok) throw new Error(data.error || 'Failed');
+                if (!data.key) throw new Error('Invalid response');
+
+                // Store
                 const keyData = {
                     key: data.key,
                     timestamp: Date.now()
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(keyData));
-                
-                // Display the key
+
+                // Show key
                 document.getElementById('keyDisplay').textContent = data.key;
-                document.getElementById('keyContainer').style.display = 'block';
+                const keySection = document.getElementById('keySection');
+                keySection.style.display = 'block';
                 
                 // Reset copy button
-                document.getElementById('copyBtn').innerHTML = '<span>📋</span> Copy Key';
-                document.getElementById('copyBtn').classList.remove('copied');
-                
-            } catch (error) {
-                console.error('Error:', error);
-                showWarning('Failed to generate key: ' + error.message);
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = 'Copy';
+                copyBtn.classList.remove('copied');
+
+                updateExpiryBadge(keyData.timestamp);
+
+            } catch (err) {
+                console.error(err);
+                showWarning('Could not generate key. Try again.', true);
             } finally {
-                generateBtn.innerHTML = originalText;
+                generateBtn.textContent = originalText;
                 generateBtn.disabled = false;
             }
         }
-        
+
         function getStoredKey() {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (!stored) return null;
@@ -314,52 +476,65 @@
                 return null;
             }
         }
-        
-        function isKeyExpired(timestamp) {
-            const age = Date.now() - timestamp;
-            return age >= (24 * 60 * 60 * 1000);
+
+        function isExpired(timestamp) {
+            return Date.now() - timestamp >= 24 * 60 * 60 * 1000;
         }
-        
-        function getTimeRemaining(timestamp) {
+
+        function getRemaining(timestamp) {
             const remaining = (24 * 60 * 60 * 1000) - (Date.now() - timestamp);
-            if (remaining <= 0) return 'Expired';
-            
+            if (remaining <= 0) return null;
             const hours = Math.floor(remaining / (60 * 60 * 1000));
-            const minutes = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-            return `${hours}h ${minutes}m`;
+            const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+            return `${hours}h ${mins}m`;
         }
-        
+
+        function updateExpiryBadge(timestamp) {
+            const badge = document.getElementById('expiryBadge');
+            const remaining = getRemaining(timestamp);
+            badge.textContent = remaining ? `${remaining}` : 'expired';
+        }
+
         function copyKey() {
-            const keyText = document.getElementById('keyDisplay').textContent;
-            navigator.clipboard.writeText(keyText).then(() => {
-                const copyBtn = document.getElementById('copyBtn');
-                copyBtn.innerHTML = '<span>✅</span> Copied!';
-                copyBtn.classList.add('copied');
-                
+            const key = document.getElementById('keyDisplay').textContent;
+            navigator.clipboard.writeText(key).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '✓ Copied';
+                btn.classList.add('copied');
                 setTimeout(() => {
-                    copyBtn.innerHTML = '<span>📋</span> Copy Key';
-                    copyBtn.classList.remove('copied');
-                }, 2000);
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 1800);
             });
         }
-        
-        function showWarning(message) {
+
+        function showWarning(msg, isError = true) {
             const warning = document.getElementById('warning');
-            warning.textContent = message;
+            document.getElementById('warningMessage').textContent = msg;
+            if (isError) {
+                warning.style.background = 'var(--red-dim)';
+                warning.style.border = '1px solid rgba(255,112,112,0.15)';
+                warning.style.color = 'var(--red)';
+            } else {
+                warning.style.background = 'var(--green-dim)';
+                warning.style.border = '1px solid rgba(76,175,125,0.15)';
+                warning.style.color = 'var(--green)';
+            }
             warning.classList.add('show');
         }
-        
+
         function hideWarning() {
             document.getElementById('warning').classList.remove('show');
         }
-        
-        // Check for existing key on load
-        window.onload = function() {
-            const existingKey = getStoredKey();
-            if (existingKey && !isKeyExpired(existingKey.timestamp)) {
-                document.getElementById('keyDisplay').textContent = existingKey.key;
-                document.getElementById('keyContainer').style.display = 'block';
-            } else if (existingKey) {
+
+        // On load
+        window.onload = () => {
+            const existing = getStoredKey();
+            if (existing && !isExpired(existing.timestamp)) {
+                document.getElementById('keyDisplay').textContent = existing.key;
+                document.getElementById('keySection').style.display = 'block';
+                updateExpiryBadge(existing.timestamp);
+            } else if (existing) {
                 localStorage.removeItem(STORAGE_KEY);
             }
         };
