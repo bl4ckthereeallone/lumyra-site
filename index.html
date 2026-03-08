@@ -202,7 +202,7 @@
         
         <div class="subtitle">License Key Generator · 24h Validity</div>
 
-        <div class="key-container" id="keyContainer">
+        <div class="key-container" id="keyContainer" style="display: none;">
             <div class="key-label">YOUR LICENSE KEY</div>
             <div class="key-value" id="keyDisplay"></div>
             <button class="copy-btn" id="copyBtn" onclick="copyKey()">
@@ -242,7 +242,7 @@
 
     <script>
         const STORAGE_KEY = 'lumyra_key_data';
-        const API_URL = 'https://lumyra-api.up.railway.app'; // Your working API
+        const API_URL = 'https://lumyra-api.up.railway.app';
         
         async function generateKey() {
             const existingKey = getStoredKey();
@@ -257,7 +257,6 @@
             generateBtn.disabled = true;
             
             try {
-                // Call your Railway API to generate a REAL key
                 const response = await fetch(`${API_URL}/generate-key`, {
                     method: 'POST',
                     headers: {
