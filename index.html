@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumyra Key Generator</title>
+    <style>
+        /* All your existing styles here - keep them exactly as you had */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: #1e1e1e;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2d2d2d;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: #5b6bf8;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(91, 107, 248, 0.3);
+        }
+        h1 {
+            color: white;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        h1 span {
+            color: #5b6bf8;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #2d2d2d;
+        }
+        .key-container {
+            background: #141414;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #2d2d2d;
+            text-align: center;
+            display: none;
+        }
+        .key-label {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .key-value {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 20px;
+            font-weight: bold;
+            color: #5b6bf8;
+            background: #0a0a0a;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #2d2d2d;
+            word-break: break-all;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        .copy-btn {
+            background: #2d2d2d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            background: #3d3d3d;
+        }
+        .copy-btn.copied {
+            background: #3dd68c;
+            color: #0a0a0a;
+        }
+        .generate-btn {
+            width: 100%;
+            background: #5b6bf8;
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .generate-btn:hover {
+            background: #6b7bff;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -10px rgba(91, 107, 248, 0.4);
+        }
+        .generate-btn:disabled {
+            background: #2d2d2d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .info-box {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #2d2d2d;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        .info-icon {
+            color: #5b6bf8;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .warning {
+            background: rgba(255, 95, 87, 0.1);
+            border: 1px solid rgba(255, 95, 87, 0.3);
+            border-radius: 10px;
+            padding: 12px 15px;
+            color: #ff5f57;
+            font-size: 13px;
+            margin: 15px 0;
+            display: none;
+        }
+        .warning.show {
+            display: block;
+        }
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">L</div>
+            <h1>Lum<span>yra</span></h1>
+        </div>
+        
+        <div class="subtitle">License Key Generator · 24h Validity</div>
+
+        <div class="key-container" id="keyContainer">
+            <div class="key-label">YOUR LICENSE KEY</div>
+            <div class="key-value" id="keyDisplay"></div>
+            <button class="copy-btn" id="copyBtn" onclick="copyKey()">
+                <span>📋</span> Copy Key
+            </button>
+        </div>
+
+        <button class="generate-btn" id="generateBtn" onclick="generateKey()">
+            Generate New Key
+        </button>
+
+        <div class="warning" id="warning"></div>
+
+        <div class="info-box">
+            <div class="info-item">
+                <span class="info-icon">⏰</span>
+                <span>Keys expire after 24 hours</span>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">💾</span>
+                <span>One key per browser (local storage)</span>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🔒</span>
+                <span>HWID locked when used in app</span>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">📋</span>
+                <span>Copy your key before closing</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            Lumyra Key System © 2025 · v1.0
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'lumyra_key_data';
+        const API_URL = 'https://lumyra-api.up.railway.app'; // Your working API
+        
+        async function generateKey() {
+            const existingKey = getStoredKey();
+            if (existingKey && !isKeyExpired(existingKey.timestamp)) {
+                showWarning('You already have a valid key! Wait 24 hours for a new one.');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            const originalText = generateBtn.innerHTML;
+            generateBtn.innerHTML = '<span class="loading"></span> Generating...';
+            generateBtn.disabled = true;
+            
+            try {
+                // Use your existing keygen.js logic but make it call a serverless function
+                // For now, we'll generate locally but you'll need to add a simple endpoint
+                
+                // Since your API doesn't have key generation, you need to add ONE simple endpoint
+                // But since you don't want to change index.js, let's use a different approach:
+                
+                // Option: Use a free serverless function on Vercel/Netlify
+                // But for now, let's generate locally and you manually add to DB:
+                
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let key = 'LUMYRA-';
+                for (let i = 0; i < 4; i++) {
+                    for (let j = 0; j < 5; j++) {
+                        key += chars[Math.floor(Math.random() * chars.length)];
+                    }
+                    if (i < 3) key += '-';
+                }
+                
+                // For now, we'll show the key but it won't be in database
+                // You need to run keygen.js manually to add keys to database
+                
+                const timestamp = Date.now();
+                const keyData = {
+                    key: key,
+                    timestamp: timestamp,
+                    expiresIn: 24 * 60 * 60 * 1000
+                };
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(keyData));
+                
+                document.getElementById('keyDisplay').textContent = key;
+                document.getElementById('keyContainer').style.display = 'block';
+                hideWarning();
+                
+                // Show a note that this key needs to be added to database
+                console.log('Key generated (manually add to Supabase):', key);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showWarning('Failed to generate key. Please try again.');
+            } finally {
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+            }
+        }
+
+        function getStoredKey() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (!stored) return null;
+            try {
+                return JSON.parse(stored);
+            } catch {
+                return null;
+            }
+        }
+
+        function isKeyExpired(timestamp) {
+            return (Date.now() - timestamp) >= (24 * 60 * 60 * 1000);
+        }
+
+        function copyKey() {
+            const keyText = document.getElementById('keyDisplay').textContent;
+            navigator.clipboard.writeText(keyText).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.innerHTML = '<span>✅</span> Copied!';
+                copyBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = '<span>📋</span> Copy Key';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function showWarning(message) {
+            const warning = document.getElementById('warning');
+            warning.textContent = message;
+            warning.classList.add('show');
+        }
+
+        function hideWarning() {
+            document.getElementById('warning').classList.remove('show');
+        }
+
+        window.onload = function() {
+            const existingKey = getStoredKey();
+            if (existingKey && !isKeyExpired(existingKey.timestamp)) {
+                document.getElementById('keyDisplay').textContent = existingKey.key;
+                document.getElementById('keyContainer').style.display = 'block';
+            } else if (existingKey) {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        };
+    </script>
+</body>
+</html>
