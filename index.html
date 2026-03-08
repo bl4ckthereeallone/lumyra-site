@@ -244,12 +244,58 @@
         const STORAGE_KEY = 'lumyra_key_data';
         const API_URL = 'https://lumyra-api.up.railway.app'; // Your working API
         
-        async function generateKey() {
-            const existingKey = getStoredKey();
-            if (existingKey && !isKeyExpired(existingKey.timestamp)) {
-                showWarning('You already have a valid key! Wait 24 hours for a new one.');
-                return;
+async function generateKey() {
+    const existingKey = getStoredKey();
+    if (existingKey && !isKeyExpired(existingKey.timestamp)) {
+        showWarning('You already have a valid key! Wait 24 hours for a new one.');
+        return;
+    }
+
+    const generateBtn = document.getElementById('generateBtn');
+    const originalText = generateBtn.innerHTML;
+    generateBtn.innerHTML = '<span class="loading"></span> Generating...';
+    generateBtn.disabled = true;
+    
+    try {
+        // Call your Railway API to generate a REAL key
+        const response = await fetch(`${API_URL}/generate-key`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             }
+        });
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to generate key');
+        }
+        
+        if (!data.key) {
+            throw new Error('No key received from server');
+        }
+
+        const timestamp = Date.now();
+        const keyData = {
+            key: data.key,
+            timestamp: timestamp,
+            expiresIn: 24 * 60 * 60 * 1000
+        };
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(keyData));
+        
+        document.getElementById('keyDisplay').textContent = data.key;
+        document.getElementById('keyContainer').style.display = 'block';
+        hideWarning();
+        
+    } catch (error) {
+        console.error('Error:', error);
+        showWarning('Failed to generate key. Please try again.');
+    } finally {
+        generateBtn.innerHTML = originalText;
+        generateBtn.disabled = false;
+    }
+}
 
             const generateBtn = document.getElementById('generateBtn');
             const originalText = generateBtn.innerHTML;
