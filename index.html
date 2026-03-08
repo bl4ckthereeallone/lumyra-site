@@ -42,7 +42,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtle background grid */
         body::before {
             content: '';
             position: fixed;
@@ -71,8 +70,7 @@
             from { opacity: 0; transform: translateY(16px) scale(0.98); }
             to   { opacity: 1; transform: translateY(0) scale(1); }
         }
-
-        /* Top glow */
+        
         .card::before {
             content: '';
             position: absolute;
@@ -86,7 +84,6 @@
             opacity: 0.6;
         }
 
-        /* ── Header ── */
         .header {
             display: flex;
             align-items: center;
@@ -144,7 +141,6 @@
             margin: 0 0 1.75rem 0;
         }
 
-        /* ── Key section ── */
         .key-section {
             margin-bottom: 1.25rem;
             animation: fadeSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -239,7 +235,6 @@
             white-space: nowrap;
         }
 
-        /* ── Generate button ── */
         .generate-btn {
             width: 100%;
             background: var(--accent);
@@ -282,7 +277,6 @@
             border: 1px solid var(--border);
         }
 
-        /* ── Warning ── */
         .warning {
             border-radius: 9px;
             padding: 0.7rem 1rem;
@@ -302,7 +296,6 @@
 
         .warning.show { display: flex; }
 
-        /* ── Features ── */
         .features {
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -331,7 +324,6 @@
             flex-shrink: 0;
         }
 
-        /* ── Spinner ── */
         .loading {
             display: inline-block;
             width: 13px;
@@ -347,7 +339,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* ── Footer ── */
         .footer {
             text-align: center;
             color: var(--text-muted);
@@ -362,7 +353,7 @@
         <div class="header">
             <div class="logo">L</div>
             <div class="header-title">
-                <h1>© 2026 Lumyra| <span>.</span></h1>
+                <h1>© 2026 Lumyra | <span>.</span></h1>
                 <span class="badge">All rights Reserved</span>
             </div>
         </div>
@@ -422,7 +413,6 @@
                 return;
             }
 
-            // Loading state
             const originalText = generateBtn.textContent;
             generateBtn.innerHTML = '<span class="loading"></span> Generating…';
             generateBtn.disabled = true;
@@ -439,19 +429,16 @@
                 if (!res.ok) throw new Error(data.error || 'Failed');
                 if (!data.key) throw new Error('Invalid response');
 
-                // Store
                 const keyData = {
                     key: data.key,
                     timestamp: Date.now()
                 };
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(keyData));
 
-                // Show key
                 document.getElementById('keyDisplay').textContent = data.key;
                 const keySection = document.getElementById('keySection');
                 keySection.style.display = 'block';
                 
-                // Reset copy button
                 const copyBtn = document.getElementById('copyBtn');
                 copyBtn.textContent = 'Copy';
                 copyBtn.classList.remove('copied');
@@ -527,7 +514,6 @@
             document.getElementById('warning').classList.remove('show');
         }
 
-        // On load
         window.onload = () => {
             const existing = getStoredKey();
             if (existing && !isExpired(existing.timestamp)) {
