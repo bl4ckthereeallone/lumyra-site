@@ -1,524 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lumyra Key System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #080808;
-            --surface: #0f0f0f;
-            --surface-2: #141414;
-            --border: rgba(255,255,255,0.06);
-            --border-hover: rgba(255,255,255,0.12);
-            --accent: #6270f5;
-            --accent-dim: rgba(98, 112, 245, 0.12);
-            --text-primary: #f2f2f2;
-            --text-secondary: #6a6a6a;
-            --text-muted: #3a3a3a;
-            --green: #4caf7d;
-            --green-dim: rgba(76, 175, 125, 0.1);
-            --red-dim: rgba(255, 90, 90, 0.08);
-            --red: #ff7070;
-        }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lumyra — Key System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #06060a;
+  --bg1:      #0c0c12;
+  --bg2:      #111118;
+  --border:   rgba(255,255,255,0.055);
+  --border2:  rgba(255,255,255,0.10);
+  --accent:   #5b6af8;
+  --accent2:  #8b96ff;
+  --txt:      #ececf0;
+  --txt2:     #666678;
+  --txt3:     #333340;
+  --green:    #3ecf8e;
+  --red:      #ff6b6b;
+  --yellow:   #f5c842;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            background: var(--bg);
-            font-family: 'DM Sans', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            color: var(--text-primary);
-            -webkit-font-smoothing: antialiased;
-        }
+body {
+  background: var(--bg);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  color: var(--txt);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 48px 48px;
-            pointer-events: none;
-            z-index: 0;
-        }
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(91,106,248,0.10) 0%, transparent 70%);
+  top: -150px; left: -150px;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(62,207,142,0.06) 0%, transparent 70%);
+  bottom: -100px; right: -100px;
+}
 
-        .card {
-            background: var(--surface);
-            border-radius: 18px;
-            padding: 2rem;
-            max-width: 440px;
-            width: 100%;
-            border: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
-            animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-        @keyframes cardIn {
-            from { opacity: 0; transform: translateY(16px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            border-radius: 2px;
-            opacity: 0.6;
-        }
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  animation: rise 0.6s cubic-bezier(0.16,1,0.3,1) both;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 40px 80px rgba(0,0,0,0.5);
+}
 
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
-        }
+@keyframes rise {
+  from { opacity:0; transform: translateY(20px) scale(0.97); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
 
-        .logo {
-            width: 34px;
-            height: 34px;
-            border-radius: 9px;
-            background: var(--accent-dim);
-            border: 1px solid rgba(98, 112, 245, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent);
-            font-weight: 500;
-            font-size: 0.95rem;
-            letter-spacing: -0.02em;
-        }
+.card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  width: 50%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  border-radius: 2px;
+  opacity: 0.7;
+}
 
-        .header-title {
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-        }
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
 
-        h1 {
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
-        }
+.logo {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(91,106,248,0.25), rgba(91,106,248,0.08));
+  border: 1px solid rgba(91,106,248,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 1rem;
+  color: var(--accent2);
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 0 20px rgba(91,106,248,0.12);
+}
 
-        h1 span {
-            color: var(--accent);
-        }
+.header-info { flex: 1; }
 
-        .badge {
-            font-size: 0.65rem;
-            font-weight: 500;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            padding: 0.18rem 0.55rem;
-            border-radius: 4px;
-        }
+.header-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--txt);
+  display: flex; align-items: center; gap: 0.5rem;
+}
 
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 0 0 1.75rem 0;
-        }
+.header-title span { color: var(--accent2); }
 
-        .key-section {
-            margin-bottom: 1.25rem;
-            animation: fadeSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
+.header-sub {
+  font-size: 0.7rem;
+  color: var(--txt2);
+  margin-top: 2px;
+  font-weight: 400;
+  font-family: 'IBM Plex Mono', monospace;
+}
 
-        @keyframes fadeSlideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+.version-badge {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--txt3);
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 0.18rem 0.55rem;
+  border-radius: 5px;
+  margin-left: auto;
+}
 
-        .key-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 0.6rem;
-            font-weight: 500;
-        }
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin-bottom: 1.5rem;
+}
 
-        .key-wrapper {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-            transition: border-color 0.2s ease;
-        }
+.key-section {
+  margin-bottom: 1.25rem;
+  display: none;
+}
 
-        .key-wrapper:hover {
-            border-color: var(--border-hover);
-        }
+.key-section.visible { display: block; animation: slideDown 0.3s cubic-bezier(0.16,1,0.3,1); }
 
-        .key-value {
-            font-family: 'Geist Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 400;
-            color: #c8c8c8;
-            word-break: break-all;
-            letter-spacing: 0.03em;
-            flex: 1;
-            line-height: 1.5;
-        }
+@keyframes slideDown {
+  from { opacity:0; transform: translateY(-10px); }
+  to   { opacity:1; transform: translateY(0); }
+}
 
-        .key-actions {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-shrink: 0;
-        }
+.key-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--txt3);
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+}
 
-        .copy-btn {
-            background: var(--surface-2);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-            padding: 0.4rem 0.85rem;
-            border-radius: 7px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            white-space: nowrap;
-        }
+.key-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  transition: border-color 0.2s;
+}
 
-        .copy-btn:hover {
-            background: #1c1c1c;
-            border-color: var(--border-hover);
-            color: var(--text-primary);
-        }
+.key-box:hover { border-color: var(--border2); }
 
-        .copy-btn.copied {
-            background: var(--green-dim);
-            border-color: rgba(76, 175, 125, 0.2);
-            color: var(--green);
-        }
+.key-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
 
-        .expiry-pill {
-            font-size: 0.65rem;
-            font-weight: 500;
-            font-family: 'Geist Mono', monospace;
-            color: var(--accent);
-            background: var(--accent-dim);
-            border: 1px solid rgba(98, 112, 245, 0.18);
-            padding: 0.25rem 0.6rem;
-            border-radius: 5px;
-            white-space: nowrap;
-        }
+.key-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.83rem;
+  color: #b8bfff;
+  letter-spacing: 0.04em;
+  word-break: break-all;
+  line-height: 1.5;
+  flex: 1;
+}
 
-        .generate-btn {
-            width: 100%;
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 0.875rem;
-            border-radius: 11px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            font-family: 'DM Sans', sans-serif;
-            cursor: pointer;
-            transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
-            margin-bottom: 1rem;
-            letter-spacing: -0.01em;
-            position: relative;
-            overflow: hidden;
-        }
+.copy-btn {
+  background: var(--bg2);
+  color: var(--txt2);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-        .generate-btn::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, rgba(255,255,255,0.07) 0%, transparent 60%);
-            pointer-events: none;
-        }
+.copy-btn:hover { background: #1a1a24; border-color: var(--border2); color: var(--txt); }
+.copy-btn.ok { background: rgba(62,207,142,0.1); border-color: rgba(62,207,142,0.2); color: var(--green); }
 
-        .generate-btn:hover:not(:disabled) {
-            background: #717fff;
-            transform: translateY(-1px);
-        }
+.expiry-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
 
-        .generate-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
+.expiry-bar-wrap {
+  flex: 1;
+  height: 3px;
+  background: var(--bg2);
+  border-radius: 99px;
+  overflow: hidden;
+}
 
-        .generate-btn:disabled {
-            background: var(--surface-2);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            border: 1px solid var(--border);
-        }
+.expiry-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 99px;
+  transition: width 1s linear;
+}
 
-        .warning {
-            border-radius: 9px;
-            padding: 0.7rem 1rem;
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            display: none;
-            align-items: center;
-            gap: 0.5rem;
-            line-height: 1.4;
-            animation: fadeIn 0.25s ease;
-        }
+.expiry-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--txt2);
+  white-space: nowrap;
+  min-width: 60px;
+  text-align: right;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to   { opacity: 1; }
-        }
+.gen-btn {
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 13px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: background 0.2s, transform 0.15s, opacity 0.2s;
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
 
-        .warning.show { display: flex; }
+.gen-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
 
-        .features {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.1rem 1.25rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.65rem;
-            background: var(--bg);
-        }
+.gen-btn:hover:not(:disabled) { background: #6b7bff; transform: translateY(-1px); }
+.gen-btn:active:not(:disabled) { transform: translateY(0); }
+.gen-btn:disabled { background: var(--bg2); color: var(--txt3); cursor: not-allowed; border: 1px solid var(--border); }
 
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            font-weight: 400;
-        }
+.alert {
+  display: none;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 11px;
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+  line-height: 1.45;
+  animation: fadeIn 0.2s ease;
+}
 
-        .feature-dot {
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background: var(--accent);
-            opacity: 0.6;
-            flex-shrink: 0;
-        }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
 
-        .loading {
-            display: inline-block;
-            width: 13px;
-            height: 13px;
-            border: 1.5px solid rgba(255,255,255,0.15);
-            border-radius: 50%;
-            border-top-color: rgba(255,255,255,0.7);
-            animation: spin 0.65s linear infinite;
-            vertical-align: middle;
-        }
+.alert.show { display: flex; }
+.alert.err { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.15); color: var(--red); }
+.alert.info { background: rgba(62,207,142,0.07); border: 1px solid rgba(62,207,142,0.15); color: var(--green); }
+.alert.warn { background: rgba(245,200,66,0.07); border: 1px solid rgba(245,200,66,0.15); color: var(--yellow); }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+.alert-icon { font-size: 0.85rem; flex-shrink: 0; line-height: 1.45; }
 
-        .footer {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.65rem;
-            margin-top: 1.5rem;
-            letter-spacing: 0.04em;
-        }
-    </style>
+.info-list {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.77rem;
+  color: var(--txt2);
+  font-weight: 400;
+}
+
+.info-row::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.footer {
+  text-align: center;
+  color: var(--txt3);
+  font-size: 0.62rem;
+  margin-top: 1.5rem;
+  letter-spacing: 0.05em;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+  display: inline-block;
+  width: 12px; height: 12px;
+  border: 1.5px solid rgba(255,255,255,0.15);
+  border-radius: 50%;
+  border-top-color: rgba(255,255,255,0.75);
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.locked-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(6,6,10,0.92);
+  border-radius: 24px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.6rem;
+  z-index: 10;
+  backdrop-filter: blur(6px);
+}
+
+.locked-overlay.show { display: flex; }
+.lock-icon { font-size: 2rem; }
+.lock-title { font-size: 0.9rem; font-weight: 600; color: var(--txt); }
+.lock-sub { font-size: 0.75rem; color: var(--txt2); font-family: 'IBM Plex Mono', monospace; }
+.lock-countdown { font-size: 1.1rem; font-weight: 700; color: var(--red); font-family: 'IBM Plex Mono', monospace; }
+</style>
 </head>
 <body>
-    <div class="card">
-        <div class="header">
-            <div class="logo">L</div>
-            <div class="header-title">
-                <h1>Lumyra Key System<span>.</span></h1>
-                <span class="badge"></span>
-            </div>
-        </div>
 
-        <div class="divider"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-        <div class="key-section" id="keySection" style="display: none;">
-            <div class="key-label">Active key</div>
-            <div class="key-wrapper">
-                <div class="key-value" id="keyDisplay"></div>
-                <div class="key-actions">
-                    <span class="expiry-pill" id="expiryBadge">24h</span>
-                    <button class="copy-btn" id="copyBtn" onclick="copyKey()">
-                        Copy
-                    </button>
-                </div>
-            </div>
-        </div>
+<div class="card" id="card">
 
-        <button class="generate-btn" id="generateBtn" onclick="generateKey()">
-            Generate key
-        </button>
+  <div class="locked-overlay" id="lockedOverlay">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">Access Restricted</div>
+    <div class="lock-sub">Too many requests. Try again in</div>
+    <div class="lock-countdown" id="lockCountdown">--:--</div>
+  </div>
 
-        <div class="warning" id="warning">
-            <span id="warningMessage"></span>
-        </div>
-
-        <div class="features">
-            <div class="feature-item">
-                <span class="feature-dot"></span>
-                Keys expire after 24 hours
-            </div>
-            <div class="feature-item">
-                <span class="feature-dot"></span>
-                HWID locked on first use
-            </div>
-        </div>
-
-        <div class="footer">© 2026 Lumyra | All rights Reserved</div>
+  <div class="header">
+    <div class="logo">L</div>
+    <div class="header-info">
+      <div class="header-title">Lumyra<span>.</span></div>
+      <div class="header-sub">key system v2</div>
     </div>
+    <div class="version-badge">Secure</div>
+  </div>
 
-    <script>
-        const STORAGE_KEY = 'lumyra_license';
-        const API_URL = 'https://lumyra-api.vercel.app/api';
+  <div class="divider"></div>
 
-        async function generateKey() {
-            const generateBtn = document.getElementById('generateBtn');
-            
-            const existing = getStoredKey();
-            if (existing && !isExpired(existing.timestamp)) {
-                showWarning('You already have an active key', false);
-                return;
-            }
+  <div class="key-section" id="keySection">
+    <div class="key-label">Active key</div>
+    <div class="key-box">
+      <div class="key-top">
+        <div class="key-value" id="keyDisplay"></div>
+        <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy</button>
+      </div>
+      <div class="expiry-row">
+        <div class="expiry-bar-wrap">
+          <div class="expiry-bar-fill" id="expiryBar" style="width:100%"></div>
+        </div>
+        <div class="expiry-text" id="expiryText">—</div>
+      </div>
+    </div>
+  </div>
 
-            const originalText = generateBtn.textContent;
-            generateBtn.innerHTML = '<span class="loading"></span> Generating…';
-            generateBtn.disabled = true;
-            hideWarning();
+  <button class="gen-btn" id="genBtn" onclick="generateKey()">Generate key</button>
 
-            try {
-                const res = await fetch(`${API_URL}/generate-key`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
-                });
+  <div class="alert" id="alert">
+    <span class="alert-icon" id="alertIcon"></span>
+    <span id="alertMsg"></span>
+  </div>
 
-                const data = await res.json();
-                
-                if (!res.ok) throw new Error(data.error || 'Failed');
-                if (!data.key) throw new Error('Invalid response');
+  <div class="info-list">
+    <div class="info-row">Keys expire after 24 hours</div>
+    <div class="info-row">HWID-locked on first use</div>
+    <div class="info-row">One key per IP per day</div>
+  </div>
 
-                const keyData = {
-                    key: data.key,
-                    timestamp: Date.now()
-                };
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(keyData));
+  <div class="footer">© 2026 Lumyra — All rights reserved</div>
+</div>
 
-                document.getElementById('keyDisplay').textContent = data.key;
-                const keySection = document.getElementById('keySection');
-                keySection.style.display = 'block';
-                
-                const copyBtn = document.getElementById('copyBtn');
-                copyBtn.textContent = 'Copy';
-                copyBtn.classList.remove('copied');
+<script>
+(() => {
+  const API          = 'https://lumyra-api.vercel.app/api';
+  const STORE_KEY    = 'lumyra_k2';
+  const LOCK_KEY     = 'lumyra_lock';
+  const MAX_ATTEMPTS = 3;
+  const LOCK_MS      = 60 * 60 * 1000;
+  const KEY_TTL      = 24 * 60 * 60 * 1000;
 
-                updateExpiryBadge(keyData.timestamp);
+  const _fetch = window.fetch.bind(window);
 
-            } catch (err) {
-                console.error(err);
-                showWarning('Could not generate key. Try again.', true);
-            } finally {
-                generateBtn.textContent = originalText;
-                generateBtn.disabled = false;
-            }
-        }
+  function getAttempts() {
+    try { return JSON.parse(sessionStorage.getItem('_att') || '{"n":0,"t":0}'); }
+    catch { return { n: 0, t: 0 }; }
+  }
 
-        function getStoredKey() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (!stored) return null;
-            try {
-                return JSON.parse(stored);
-            } catch {
-                return null;
-            }
-        }
+  function bumpAttempt() {
+    const a = getAttempts();
+    a.n++;
+    a.t = Date.now();
+    sessionStorage.setItem('_att', JSON.stringify(a));
+  }
 
-        function isExpired(timestamp) {
-            return Date.now() - timestamp >= 24 * 60 * 60 * 1000;
-        }
+  function resetAttempts() {
+    sessionStorage.removeItem('_att');
+  }
 
-        function getRemaining(timestamp) {
-            const remaining = (24 * 60 * 60 * 1000) - (Date.now() - timestamp);
-            if (remaining <= 0) return null;
-            const hours = Math.floor(remaining / (60 * 60 * 1000));
-            const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
-            return `${hours}h ${mins}m`;
-        }
+  function isClientLocked() {
+    try {
+      const lock = JSON.parse(localStorage.getItem(LOCK_KEY) || 'null');
+      if (!lock) return false;
+      if (Date.now() > lock.until) { localStorage.removeItem(LOCK_KEY); return false; }
+      return lock.until;
+    } catch { return false; }
+  }
 
-        function updateExpiryBadge(timestamp) {
-            const badge = document.getElementById('expiryBadge');
-            const remaining = getRemaining(timestamp);
-            badge.textContent = remaining ? `${remaining}` : 'expired';
-        }
+  function setClientLock() {
+    localStorage.setItem(LOCK_KEY, JSON.stringify({ until: Date.now() + LOCK_MS }));
+  }
 
-        function copyKey() {
-            const key = document.getElementById('keyDisplay').textContent;
-            navigator.clipboard.writeText(key).then(() => {
-                const btn = document.getElementById('copyBtn');
-                btn.textContent = '✓ Copied';
-                btn.classList.add('copied');
-                setTimeout(() => {
-                    btn.textContent = 'Copy';
-                    btn.classList.remove('copied');
-                }, 1800);
-            });
-        }
+  function makeRequestToken() {
+    const ts = Math.floor(Date.now() / 10000);
+    const raw = `lumyra-${ts}-req`;
+    return btoa(raw).split('').reverse().join('').substring(0, 24);
+  }
 
-        function showWarning(msg, isError = true) {
-            const warning = document.getElementById('warning');
-            document.getElementById('warningMessage').textContent = msg;
-            if (isError) {
-                warning.style.background = 'var(--red-dim)';
-                warning.style.border = '1px solid rgba(255,112,112,0.15)';
-                warning.style.color = 'var(--red)';
-            } else {
-                warning.style.background = 'var(--green-dim)';
-                warning.style.border = '1px solid rgba(76,175,125,0.15)';
-                warning.style.color = 'var(--green)';
-            }
-            warning.classList.add('show');
-        }
+  function saveKey(key, expiresAt) {
+    localStorage.setItem(STORE_KEY, JSON.stringify({ key, expiresAt }));
+  }
 
-        function hideWarning() {
-            document.getElementById('warning').classList.remove('show');
-        }
+  function loadKey() {
+    try {
+      const d = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+      if (!d || !d.key || !d.expiresAt) return null;
+      if (Date.now() >= new Date(d.expiresAt).getTime()) {
+        localStorage.removeItem(STORE_KEY);
+        return null;
+      }
+      return d;
+    } catch { return null; }
+  }
 
-        window.onload = () => {
-            const existing = getStoredKey();
-            if (existing && !isExpired(existing.timestamp)) {
-                document.getElementById('keyDisplay').textContent = existing.key;
-                document.getElementById('keySection').style.display = 'block';
-                updateExpiryBadge(existing.timestamp);
-            } else if (existing) {
-                localStorage.removeItem(STORAGE_KEY);
-            }
-        };
-    </script>
+  function showAlert(msg, type = 'err') {
+    const icons = { err: '⚠', info: '✓', warn: '◆' };
+    document.getElementById('alertIcon').textContent = icons[type] || '⚠';
+    document.getElementById('alertMsg').textContent  = msg;
+    const el = document.getElementById('alert');
+    el.className = `alert show ${type}`;
+  }
+
+  function hideAlert() {
+    document.getElementById('alert').className = 'alert';
+  }
+
+  function setBtn(loading) {
+    const btn = document.getElementById('genBtn');
+    btn.disabled = loading;
+    btn.innerHTML = loading
+      ? '<span class="spin"></span>Generating…'
+      : 'Generate key';
+  }
+
+  function showKey(key, expiresAt) {
+    document.getElementById('keyDisplay').textContent = key;
+    const sec = document.getElementById('keySection');
+    sec.classList.add('visible');
+    updateExpiry(expiresAt);
+  }
+
+  function updateExpiry(expiresAt) {
+    const now   = Date.now();
+    const end   = new Date(expiresAt).getTime();
+    const total = KEY_TTL;
+    const left  = Math.max(0, end - now);
+    const pct   = Math.min(100, (left / total) * 100);
+
+    document.getElementById('expiryBar').style.width = pct + '%';
+
+    if (left <= 0) {
+      document.getElementById('expiryText').textContent = 'expired';
+      return;
+    }
+    const h = Math.floor(left / 3600000);
+    const m = Math.floor((left % 3600000) / 60000);
+    const s = Math.floor((left % 60000) / 1000);
+    document.getElementById('expiryText').textContent =
+      h > 0 ? `${h}h ${m}m` : m > 0 ? `${m}m ${s}s` : `${s}s`;
+  }
+
+  let lockInterval = null;
+
+  function showLockout(until) {
+    document.getElementById('lockedOverlay').classList.add('show');
+    if (lockInterval) clearInterval(lockInterval);
+    lockInterval = setInterval(() => {
+      const left = Math.max(0, until - Date.now());
+      if (left === 0) {
+        clearInterval(lockInterval);
+        document.getElementById('lockedOverlay').classList.remove('show');
+        localStorage.removeItem(LOCK_KEY);
+        return;
+      }
+      const m = String(Math.floor(left / 60000)).padStart(2, '0');
+      const s = String(Math.floor((left % 60000) / 1000)).padStart(2, '0');
+      document.getElementById('lockCountdown').textContent = `${m}:${s}`;
+    }, 1000);
+  }
+
+  async function generateKey() {
+    hideAlert();
+
+    const lockUntil = isClientLocked();
+    if (lockUntil) { showLockout(lockUntil); return; }
+
+    const existing = loadKey();
+    if (existing) {
+      showAlert('You already have an active key.', 'info');
+      showKey(existing.key, existing.expiresAt);
+      return;
+    }
+
+    const att = getAttempts();
+    if (att.n >= MAX_ATTEMPTS && Date.now() - att.t < 30000) {
+      setClientLock();
+      showLockout(Date.now() + LOCK_MS);
+      return;
+    }
+
+    setBtn(true);
+    bumpAttempt();
+
+    try {
+      const res = await _fetch(`${API}/generate-key`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Request-Token': makeRequestToken(),
+        },
+        body: JSON.stringify({ _t: Date.now() }),
+      });
+
+      if (res.status === 429) {
+        setClientLock();
+        showLockout(Date.now() + LOCK_MS);
+        showAlert('Rate limit reached. Try again in 1 hour.', 'warn');
+        setBtn(false);
+        return;
+      }
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        showAlert(data.error || 'Could not generate key.', 'err');
+        setBtn(false);
+        return;
+      }
+
+      if (!data.key) throw new Error('Bad response');
+
+      const expiresAt = data.expiresAt || new Date(Date.now() + KEY_TTL).toISOString();
+
+      saveKey(data.key, expiresAt);
+      resetAttempts();
+      showKey(data.key, expiresAt);
+      showAlert('Key generated successfully.', 'info');
+
+    } catch (e) {
+      showAlert('Connection failed. Check your internet.', 'err');
+    } finally {
+      setBtn(false);
+    }
+  }
+
+  window.generateKey = generateKey;
+
+  window.copyKey = function () {
+    const key = document.getElementById('keyDisplay').textContent;
+    if (!key) return;
+    navigator.clipboard.writeText(key).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ Copied';
+      btn.classList.add('ok');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1800);
+    });
+  };
+
+  function init() {
+    const lockUntil = isClientLocked();
+    if (lockUntil) { showLockout(lockUntil); return; }
+
+    const stored = loadKey();
+    if (stored) {
+      showKey(stored.key, stored.expiresAt);
+      setInterval(() => updateExpiry(stored.expiresAt), 1000);
+    }
+  }
+
+  init();
+
+  setInterval(() => {
+    const stored = loadKey();
+    if (stored) updateExpiry(stored.expiresAt);
+  }, 1000);
+
+})();
+</script>
 </body>
 </html>
