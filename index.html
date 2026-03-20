@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Lumyra Key System</title>
 <link rel="icon" href="data:,"/>
-<script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -246,7 +245,7 @@ body::before {
     <div class="key-box">
       <div class="key-top">
         <div class="key-value" id="keyDisplay"></div>
-        <button class="copy-btn" id="copyBtn" onclick="copyKey()">Copy</button>
+        <button class="copy-btn" id="copyBtn">Copy</button>
       </div>
       <div class="expiry-row">
         <div class="expiry-bar-wrap">
@@ -258,7 +257,7 @@ body::before {
   </div>
 
   <button class="gen-btn" id="unlockBtn">Complete verification</button>
-  <button class="gen-btn" id="genBtn" onclick="generateKey()" style="display:none">Generate key</button>
+  <button class="gen-btn" id="genBtn" style="display:none">Generate key</button>
 
   <div class="alert" id="alert">
     <span class="alert-icon" id="alertIcon"></span>
@@ -293,8 +292,7 @@ body::before {
   }
 
   function bumpAttempt() {
-    const a = getAttempts();
-    a.n++; a.t = Date.now();
+    const a = getAttempts(); a.n++; a.t = Date.now();
     sessionStorage.setItem('_att', JSON.stringify(a));
   }
 
@@ -315,8 +313,7 @@ body::before {
 
   function makeRequestToken() {
     const ts = Math.floor(Date.now() / 10000);
-    const raw = `lumyra-${ts}-req`;
-    return btoa(raw).split('').reverse().join('').substring(0, 24);
+    return btoa(`lumyra-${ts}-req`).split('').reverse().join('').substring(0, 24);
   }
 
   function saveKey(key, expiresAt) {
@@ -327,10 +324,7 @@ body::before {
     try {
       const d = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
       if (!d || !d.key || !d.expiresAt) return null;
-      if (Date.now() >= new Date(d.expiresAt).getTime()) {
-        localStorage.removeItem(STORE_KEY);
-        return null;
-      }
+      if (Date.now() >= new Date(d.expiresAt).getTime()) { localStorage.removeItem(STORE_KEY); return null; }
       return d;
     } catch { return null; }
   }
@@ -392,27 +386,16 @@ body::before {
   async function generateKey() {
     hideAlert();
 
-    if (!_lvDone) {
-      showAlert('Complete the verification first.', 'warn');
-      return;
-    }
+    if (!_lvDone) { showAlert('Complete the verification first.', 'warn'); return; }
 
     const lockUntil = isClientLocked();
     if (lockUntil) { showLockout(lockUntil); return; }
 
     const existing = loadKey();
-    if (existing) {
-      showAlert('You already have an active key.', 'info');
-      showKey(existing.key, existing.expiresAt);
-      return;
-    }
+    if (existing) { showAlert('You already have an active key.', 'info'); showKey(existing.key, existing.expiresAt); return; }
 
     const att = getAttempts();
-    if (att.n >= MAX_ATTEMPTS && Date.now() - att.t < 30000) {
-      setClientLock();
-      showLockout(Date.now() + LOCK_MS);
-      return;
-    }
+    if (att.n >= MAX_ATTEMPTS && Date.now() - att.t < 30000) { setClientLock(); showLockout(Date.now() + LOCK_MS); return; }
 
     setGenBtn(true);
     bumpAttempt();
@@ -420,29 +403,18 @@ body::before {
     try {
       const res = await _fetch(`${API}/generate-key`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Request-Token': makeRequestToken(),
-        },
+        headers: { 'Content-Type': 'application/json', 'X-Request-Token': makeRequestToken() },
         body: JSON.stringify({ _t: Date.now() }),
       });
 
       if (res.status === 429) {
-        setClientLock();
-        showLockout(Date.now() + LOCK_MS);
+        setClientLock(); showLockout(Date.now() + LOCK_MS);
         showAlert('Rate limit reached. Try again in 1 hour.', 'warn');
-        setGenBtn(false);
-        return;
+        setGenBtn(false); return;
       }
 
       const data = await res.json();
-
-      if (!res.ok) {
-        showAlert(data.error || 'Could not generate key.', 'err');
-        setGenBtn(false);
-        return;
-      }
-
+      if (!res.ok) { showAlert(data.error || 'Could not generate key.', 'err'); setGenBtn(false); return; }
       if (!data.key) throw new Error('Bad response');
 
       const expiresAt = data.expiresAt || new Date(Date.now() + KEY_TTL).toISOString();
@@ -458,36 +430,21 @@ body::before {
     }
   }
 
-window.generateKey = generateKey;
+  document.getElementById('unlockBtn').addEventListener('click', function () {
+    window.location.href = 'https://direct-link.net/4321252/kL7UldRa6FCG';
+  });
 
-  document.getElementById('unlockBtn').addEventListener('click', function() {
-    if (typeof linkvertise === 'undefined') {
-      showAlert('Verification script failed to load. Try refreshing.', 'err');
-      return;
-    }
-linkvertise(4321252, {
-      whitelist: [],
-      blacklist: [""],
-      done: function() {
-        _lvDone = true;
-        try { sessionStorage.setItem('_lv', '1'); } catch {}
-        document.getElementById('unlockBtn').style.display = 'none';
-        document.getElementById('genBtn').style.display = 'block';
-        showAlert('Verified. You can now generate your key.', 'info');
-      }
-    });
-    showAlert('Check for a new tab or popup from Linkvertise.', 'warn');
+  document.getElementById('genBtn').addEventListener('click', generateKey);
 
-  window.copyKey = function () {
+  document.getElementById('copyBtn').addEventListener('click', function () {
     const key = document.getElementById('keyDisplay').textContent;
     if (!key) return;
     navigator.clipboard.writeText(key).then(() => {
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = '✓ Copied';
-      btn.classList.add('ok');
-      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('ok'); }, 1800);
+      this.textContent = '✓ Copied';
+      this.classList.add('ok');
+      setTimeout(() => { this.textContent = 'Copy'; this.classList.remove('ok'); }, 1800);
     });
-  };
+  });
 
   function init() {
     const lockUntil = isClientLocked();
@@ -500,6 +457,24 @@ linkvertise(4321252, {
       document.getElementById('unlockBtn').style.display = 'none';
       document.getElementById('genBtn').style.display = 'block';
       _lvDone = true;
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('verified') === '1') {
+      _lvDone = true;
+      try { sessionStorage.setItem('_lv', '1'); } catch {}
+      document.getElementById('unlockBtn').style.display = 'none';
+      document.getElementById('genBtn').style.display = 'block';
+      window.history.replaceState({}, '', window.location.pathname);
+      showAlert('Verified. You can now generate your key.', 'info');
+      return;
+    }
+
+    if (sessionStorage.getItem('_lv') === '1') {
+      _lvDone = true;
+      document.getElementById('unlockBtn').style.display = 'none';
+      document.getElementById('genBtn').style.display = 'block';
     }
   }
 
