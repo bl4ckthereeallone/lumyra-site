@@ -465,7 +465,7 @@ window.generateKey = generateKey;
       showAlert('Verification script failed to load. Try refreshing.', 'err');
       return;
     }
-    linkvertise(4321252, {
+linkvertise(4321252, {
       whitelist: [],
       blacklist: [""],
       done: function() {
@@ -476,7 +476,7 @@ window.generateKey = generateKey;
         showAlert('Verified. You can now generate your key.', 'info');
       }
     });
-  });
+    showAlert('Check for a new tab or popup from Linkvertise.', 'warn');
 
   window.copyKey = function () {
     const key = document.getElementById('keyDisplay').textContent;
