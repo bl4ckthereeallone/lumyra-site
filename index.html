@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Lumyra Key System</title>
 <link rel="icon" href="data:,"/>
+<script src="https://publisher.linkvertise.com/cdn/linkvertise.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
@@ -39,23 +40,9 @@ body {
   overflow: hidden;
 }
 
-.orb {
-  position: fixed;
-  border-radius: 50%;
-  filter: blur(120px);
-  pointer-events: none;
-  z-index: 0;
-}
-.orb-1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(91,106,248,0.10) 0%, transparent 70%);
-  top: -150px; left: -150px;
-}
-.orb-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(62,207,142,0.06) 0%, transparent 70%);
-  bottom: -100px; right: -100px;
-}
+.orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+.orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(91,106,248,0.10) 0%, transparent 70%); top: -150px; left: -150px; }
+.orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(62,207,142,0.06) 0%, transparent 70%); bottom: -100px; right: -100px; }
 
 body::before {
   content: '';
@@ -96,70 +83,40 @@ body::before {
   opacity: 0.7;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-bottom: 1.75rem;
-}
+.header { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.75rem; }
 
 .logo {
-  width: 36px; height: 36px;
-  border-radius: 10px;
+  width: 36px; height: 36px; border-radius: 10px;
   background: linear-gradient(135deg, rgba(91,106,248,0.25), rgba(91,106,248,0.08));
   border: 1px solid rgba(91,106,248,0.25);
   display: flex; align-items: center; justify-content: center;
-  font-weight: 700; font-size: 1rem;
-  color: var(--accent2);
-  flex-shrink: 0;
-  position: relative;
-  box-shadow: 0 0 20px rgba(91,106,248,0.12);
+  font-weight: 700; font-size: 1rem; color: var(--accent2);
+  flex-shrink: 0; box-shadow: 0 0 20px rgba(91,106,248,0.12);
 }
 
 .header-info { flex: 1; }
 
 .header-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--txt);
-  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.95rem; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--txt); display: flex; align-items: center; gap: 0.5rem;
 }
-
 .header-title span { color: var(--accent2); }
 
 .header-sub {
-  font-size: 0.7rem;
-  color: var(--txt2);
-  margin-top: 2px;
-  font-weight: 400;
-  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem; color: var(--txt2); margin-top: 2px;
+  font-weight: 400; font-family: 'IBM Plex Mono', monospace;
 }
 
 .version-badge {
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--txt3);
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 0.18rem 0.55rem;
-  border-radius: 5px;
-  margin-left: auto;
+  font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--txt3);
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 0.18rem 0.55rem; border-radius: 5px; margin-left: auto;
 }
 
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin-bottom: 1.5rem;
-}
+.divider { height: 1px; background: var(--border); margin-bottom: 1.5rem; }
 
-.key-section {
-  margin-bottom: 1.25rem;
-  display: none;
-}
-
+.key-section { margin-bottom: 1.25rem; display: none; }
 .key-section.visible { display: block; animation: slideDown 0.3s cubic-bezier(0.16,1,0.3,1); }
 
 @keyframes slideDown {
@@ -168,208 +125,94 @@ body::before {
 }
 
 .key-label {
-  font-size: 0.62rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--txt3);
-  font-weight: 600;
-  margin-bottom: 0.55rem;
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--txt3); font-weight: 600; margin-bottom: 0.55rem;
 }
 
 .key-box {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1rem 1.1rem;
-  transition: border-color 0.2s;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1rem 1.1rem; transition: border-color 0.2s;
 }
-
 .key-box:hover { border-color: var(--border2); }
 
-.key-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
+.key-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem; }
 
 .key-value {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.83rem;
-  color: #b8bfff;
-  letter-spacing: 0.04em;
-  word-break: break-all;
-  line-height: 1.5;
-  flex: 1;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.83rem;
+  color: #b8bfff; letter-spacing: 0.04em; word-break: break-all;
+  line-height: 1.5; flex: 1;
 }
 
 .copy-btn {
-  background: var(--bg2);
-  color: var(--txt2);
-  border: 1px solid var(--border);
-  padding: 0.4rem 0.9rem;
-  border-radius: 8px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  font-family: 'Syne', sans-serif;
-  cursor: pointer;
-  transition: all 0.15s;
-  white-space: nowrap;
-  flex-shrink: 0;
+  background: var(--bg2); color: var(--txt2); border: 1px solid var(--border);
+  padding: 0.4rem 0.9rem; border-radius: 8px; font-size: 0.72rem; font-weight: 600;
+  font-family: 'Syne', sans-serif; cursor: pointer; transition: all 0.15s;
+  white-space: nowrap; flex-shrink: 0;
 }
-
 .copy-btn:hover { background: #1a1a24; border-color: var(--border2); color: var(--txt); }
 .copy-btn.ok { background: rgba(62,207,142,0.1); border-color: rgba(62,207,142,0.2); color: var(--green); }
 
-.expiry-row {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.expiry-bar-wrap {
-  flex: 1;
-  height: 3px;
-  background: var(--bg2);
-  border-radius: 99px;
-  overflow: hidden;
-}
-
-.expiry-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  border-radius: 99px;
-  transition: width 1s linear;
-}
-
-.expiry-text {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--txt2);
-  white-space: nowrap;
-  min-width: 60px;
-  text-align: right;
-}
+.expiry-row { display: flex; align-items: center; gap: 0.6rem; }
+.expiry-bar-wrap { flex: 1; height: 3px; background: var(--bg2); border-radius: 99px; overflow: hidden; }
+.expiry-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width 1s linear; }
+.expiry-text { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--txt2); white-space: nowrap; min-width: 60px; text-align: right; }
 
 .gen-btn {
-  width: 100%;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  padding: 0.9rem;
-  border-radius: 13px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  font-family: 'Syne', sans-serif;
-  cursor: pointer;
-  letter-spacing: -0.01em;
+  width: 100%; background: var(--accent); color: #fff; border: none;
+  padding: 0.9rem; border-radius: 13px; font-size: 0.875rem; font-weight: 600;
+  font-family: 'Syne', sans-serif; cursor: pointer; letter-spacing: -0.01em;
   transition: background 0.2s, transform 0.15s, opacity 0.2s;
-  margin-bottom: 1rem;
-  position: relative;
-  overflow: hidden;
+  margin-bottom: 1rem; position: relative; overflow: hidden;
 }
-
 .gen-btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 60%);
   pointer-events: none;
 }
-
 .gen-btn:hover:not(:disabled) { background: #6b7bff; transform: translateY(-1px); }
 .gen-btn:active:not(:disabled) { transform: translateY(0); }
 .gen-btn:disabled { background: var(--bg2); color: var(--txt3); cursor: not-allowed; border: 1px solid var(--border); }
 
-.alert {
-  display: none;
-  align-items: flex-start;
-  gap: 0.6rem;
-  padding: 0.75rem 1rem;
-  border-radius: 11px;
-  font-size: 0.78rem;
-  margin-bottom: 1rem;
-  line-height: 1.45;
-  animation: fadeIn 0.2s ease;
+.spin {
+  display: inline-block; width: 12px; height: 12px;
+  border: 1.5px solid rgba(255,255,255,0.15); border-radius: 50%;
+  border-top-color: rgba(255,255,255,0.75);
+  animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px;
 }
+@keyframes spin { to { transform: rotate(360deg); } }
 
+.alert {
+  display: none; align-items: flex-start; gap: 0.6rem;
+  padding: 0.75rem 1rem; border-radius: 11px; font-size: 0.78rem;
+  margin-bottom: 1rem; line-height: 1.45; animation: fadeIn 0.2s ease;
+}
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
 .alert.show { display: flex; }
-.alert.err { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.15); color: var(--red); }
-.alert.info { background: rgba(62,207,142,0.07); border: 1px solid rgba(62,207,142,0.15); color: var(--green); }
-.alert.warn { background: rgba(245,200,66,0.07); border: 1px solid rgba(245,200,66,0.15); color: var(--yellow); }
-
+.alert.err  { background: rgba(255,107,107,0.07); border: 1px solid rgba(255,107,107,0.15); color: var(--red); }
+.alert.info { background: rgba(62,207,142,0.07);  border: 1px solid rgba(62,207,142,0.15);  color: var(--green); }
+.alert.warn { background: rgba(245,200,66,0.07);  border: 1px solid rgba(245,200,66,0.15);  color: var(--yellow); }
 .alert-icon { font-size: 0.85rem; flex-shrink: 0; line-height: 1.45; }
 
 .info-list {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1rem 1.1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1rem 1.1rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
 }
+.info-row { display: flex; align-items: center; gap: 0.65rem; font-size: 0.77rem; color: var(--txt2); font-weight: 400; }
+.info-row::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--accent); opacity: 0.5; flex-shrink: 0; }
 
-.info-row {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
-  font-size: 0.77rem;
-  color: var(--txt2);
-  font-weight: 400;
-}
-
-.info-row::before {
-  content: '';
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0.5;
-  flex-shrink: 0;
-}
-
-.footer {
-  text-align: center;
-  color: var(--txt3);
-  font-size: 0.62rem;
-  margin-top: 1.5rem;
-  letter-spacing: 0.05em;
-  font-family: 'IBM Plex Mono', monospace;
-}
-
-  display: inline-block;
-  width: 12px; height: 12px;
-  border: 1.5px solid rgba(255,255,255,0.15);
-  border-radius: 50%;
-  border-top-color: rgba(255,255,255,0.75);
-  animation: spin 0.6s linear infinite;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
+.footer { text-align: center; color: var(--txt3); font-size: 0.62rem; margin-top: 1.5rem; letter-spacing: 0.05em; font-family: 'IBM Plex Mono', monospace; }
 
 .locked-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(6,6,10,0.92);
-  border-radius: 24px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0.6rem;
-  z-index: 10;
-  backdrop-filter: blur(6px);
+  position: absolute; inset: 0; background: rgba(6,6,10,0.92);
+  border-radius: 24px; display: none; align-items: center;
+  justify-content: center; flex-direction: column; gap: 0.6rem;
+  z-index: 10; backdrop-filter: blur(6px);
 }
-
 .locked-overlay.show { display: flex; }
-.lock-icon { font-size: 2rem; }
-.lock-title { font-size: 0.9rem; font-weight: 600; color: var(--txt); }
-.lock-sub { font-size: 0.75rem; color: var(--txt2); font-family: 'IBM Plex Mono', monospace; }
+.lock-icon      { font-size: 2rem; }
+.lock-title     { font-size: 0.9rem; font-weight: 600; color: var(--txt); }
+.lock-sub       { font-size: 0.75rem; color: var(--txt2); font-family: 'IBM Plex Mono', monospace; }
 .lock-countdown { font-size: 1.1rem; font-weight: 700; color: var(--red); font-family: 'IBM Plex Mono', monospace; }
 </style>
 </head>
@@ -414,7 +257,8 @@ body::before {
     </div>
   </div>
 
-  <button class="gen-btn" id="genBtn" onclick="generateKey()">Generate key</button>
+  <button class="gen-btn" id="unlockBtn" onclick="startVerify()">Complete verification</button>
+  <button class="gen-btn" id="genBtn" onclick="generateKey()" style="display:none">Generate key</button>
 
   <div class="alert" id="alert">
     <span class="alert-icon" id="alertIcon"></span>
@@ -432,6 +276,8 @@ body::before {
 
 <script>
 (() => {
+  const _fetch = window.fetch.bind(window);
+
   const API          = 'https://lumyra-api.vercel.app/api';
   const STORE_KEY    = 'lumyra_k2';
   const LOCK_KEY     = 'lumyra_lock';
@@ -439,7 +285,7 @@ body::before {
   const LOCK_MS      = 60 * 60 * 1000;
   const KEY_TTL      = 24 * 60 * 60 * 1000;
 
-  const _fetch = window.fetch.bind(window);
+  let _lvDone = false;
 
   function getAttempts() {
     try { return JSON.parse(sessionStorage.getItem('_att') || '{"n":0,"t":0}'); }
@@ -448,14 +294,11 @@ body::before {
 
   function bumpAttempt() {
     const a = getAttempts();
-    a.n++;
-    a.t = Date.now();
+    a.n++; a.t = Date.now();
     sessionStorage.setItem('_att', JSON.stringify(a));
   }
 
-  function resetAttempts() {
-    sessionStorage.removeItem('_att');
-  }
+  function resetAttempts() { sessionStorage.removeItem('_att'); }
 
   function isClientLocked() {
     try {
@@ -496,42 +339,30 @@ body::before {
     const icons = { err: '⚠', info: '✓', warn: '◆' };
     document.getElementById('alertIcon').textContent = icons[type] || '⚠';
     document.getElementById('alertMsg').textContent  = msg;
-    const el = document.getElementById('alert');
-    el.className = `alert show ${type}`;
+    document.getElementById('alert').className = `alert show ${type}`;
   }
 
-  function hideAlert() {
-    document.getElementById('alert').className = 'alert';
-  }
+  function hideAlert() { document.getElementById('alert').className = 'alert'; }
 
-  function setBtn(loading) {
+  function setGenBtn(loading) {
     const btn = document.getElementById('genBtn');
     btn.disabled = loading;
-    btn.innerHTML = loading
-      ? '<span class="spin"></span>Generating…'
-      : 'Generate key';
+    btn.innerHTML = loading ? '<span class="spin"></span>Generating…' : 'Generate key';
   }
 
   function showKey(key, expiresAt) {
     document.getElementById('keyDisplay').textContent = key;
-    const sec = document.getElementById('keySection');
-    sec.classList.add('visible');
+    document.getElementById('keySection').classList.add('visible');
     updateExpiry(expiresAt);
   }
 
   function updateExpiry(expiresAt) {
-    const now   = Date.now();
-    const end   = new Date(expiresAt).getTime();
-    const total = KEY_TTL;
-    const left  = Math.max(0, end - now);
-    const pct   = Math.min(100, (left / total) * 100);
-
+    const now  = Date.now();
+    const end  = new Date(expiresAt).getTime();
+    const left = Math.max(0, end - now);
+    const pct  = Math.min(100, (left / KEY_TTL) * 100);
     document.getElementById('expiryBar').style.width = pct + '%';
-
-    if (left <= 0) {
-      document.getElementById('expiryText').textContent = 'expired';
-      return;
-    }
+    if (left <= 0) { document.getElementById('expiryText').textContent = 'expired'; return; }
     const h = Math.floor(left / 3600000);
     const m = Math.floor((left % 3600000) / 60000);
     const s = Math.floor((left % 60000) / 1000);
@@ -558,8 +389,26 @@ body::before {
     }, 1000);
   }
 
+  function startVerify() {
+    linkvertise(4321252, {
+      whitelist: [],
+      blacklist: [""],
+      done: function () {
+        _lvDone = true;
+        document.getElementById('unlockBtn').style.display = 'none';
+        document.getElementById('genBtn').style.display = 'block';
+        showAlert('Verification complete. You can now generate your key.', 'info');
+      }
+    });
+  }
+
   async function generateKey() {
     hideAlert();
+
+    if (!_lvDone) {
+      showAlert('Complete the verification first.', 'warn');
+      return;
+    }
 
     const lockUntil = isClientLocked();
     if (lockUntil) { showLockout(lockUntil); return; }
@@ -578,7 +427,7 @@ body::before {
       return;
     }
 
-    setBtn(true);
+    setGenBtn(true);
     bumpAttempt();
 
     try {
@@ -595,7 +444,7 @@ body::before {
         setClientLock();
         showLockout(Date.now() + LOCK_MS);
         showAlert('Rate limit reached. Try again in 1 hour.', 'warn');
-        setBtn(false);
+        setGenBtn(false);
         return;
       }
 
@@ -603,27 +452,27 @@ body::before {
 
       if (!res.ok) {
         showAlert(data.error || 'Could not generate key.', 'err');
-        setBtn(false);
+        setGenBtn(false);
         return;
       }
 
       if (!data.key) throw new Error('Bad response');
 
       const expiresAt = data.expiresAt || new Date(Date.now() + KEY_TTL).toISOString();
-
       saveKey(data.key, expiresAt);
       resetAttempts();
       showKey(data.key, expiresAt);
       showAlert('Key generated successfully.', 'info');
 
-    } catch (e) {
+    } catch {
       showAlert('Connection failed. Check your internet.', 'err');
     } finally {
-      setBtn(false);
+      setGenBtn(false);
     }
   }
 
   window.generateKey = generateKey;
+  window.startVerify = startVerify;
 
   window.copyKey = function () {
     const key = document.getElementById('keyDisplay').textContent;
@@ -644,6 +493,9 @@ body::before {
     if (stored) {
       showKey(stored.key, stored.expiresAt);
       setInterval(() => updateExpiry(stored.expiresAt), 1000);
+      document.getElementById('unlockBtn').style.display = 'none';
+      document.getElementById('genBtn').style.display = 'block';
+      _lvDone = true;
     }
   }
 
