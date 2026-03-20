@@ -257,7 +257,7 @@ body::before {
     </div>
   </div>
 
-  <button class="gen-btn" id="unlockBtn" onclick="startVerify()">Complete verification</button>
+  <button class="gen-btn" id="unlockBtn">Complete verification</button>
   <button class="gen-btn" id="genBtn" onclick="generateKey()" style="display:none">Generate key</button>
 
   <div class="alert" id="alert">
@@ -389,19 +389,6 @@ body::before {
     }, 1000);
   }
 
-  function startVerify() {
-    linkvertise(4321252, {
-      whitelist: [],
-      blacklist: [""],
-      done: function () {
-        _lvDone = true;
-        document.getElementById('unlockBtn').style.display = 'none';
-        document.getElementById('genBtn').style.display = 'block';
-        showAlert('Verification complete. You can now generate your key.', 'info');
-      }
-    });
-  }
-
   async function generateKey() {
     hideAlert();
 
@@ -471,8 +458,25 @@ body::before {
     }
   }
 
-  window.generateKey = generateKey;
-  window.startVerify = startVerify;
+window.generateKey = generateKey;
+
+  document.getElementById('unlockBtn').addEventListener('click', function() {
+    if (typeof linkvertise === 'undefined') {
+      showAlert('Verification script failed to load. Try refreshing.', 'err');
+      return;
+    }
+    linkvertise(4321252, {
+      whitelist: [],
+      blacklist: [""],
+      done: function() {
+        _lvDone = true;
+        try { sessionStorage.setItem('_lv', '1'); } catch {}
+        document.getElementById('unlockBtn').style.display = 'none';
+        document.getElementById('genBtn').style.display = 'block';
+        showAlert('Verified. You can now generate your key.', 'info');
+      }
+    });
+  });
 
   window.copyKey = function () {
     const key = document.getElementById('keyDisplay').textContent;
