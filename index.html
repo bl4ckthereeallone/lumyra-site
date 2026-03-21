@@ -407,24 +407,53 @@ body::before {
         body: JSON.stringify({ _t: Date.now() }),
       });
 
+      // Handle rate limiting
       if (res.status === 429) {
-        setClientLock(); showLockout(Date.now() + LOCK_MS);
+        setClientLock(); 
+        showLockout(Date.now() + LOCK_MS);
         showAlert('Rate limit reached. Try again in 1 hour.', 'warn');
-        setGenBtn(false); return;
+        setGenBtn(false); 
+        return;
       }
 
-      const data = await res.json();
-      if (!res.ok) { showAlert(data.error || 'Could not generate key.', 'err'); setGenBtn(false); return; }
-      if (!data.key) throw new Error('Bad response');
+      // Parse response
+      let data;
+      try {
+        data = await res.json();
+      } catch (e) {
+        console.error('Failed to parse JSON response:', e);
+        showAlert('Invalid server response. Try again.', 'err');
+        setGenBtn(false); 
+        return;
+      }
 
+      // Handle non-successful responses
+      if (!res.ok) {
+        const errorMsg = data?.error || data?.message || `Server error: ${res.status}`;
+        console.error('API Error:', errorMsg, data);
+        showAlert(errorMsg, 'err');
+        setGenBtn(false); 
+        return;
+      }
+
+      // Validate key data
+      if (!data || !data.key) {
+        console.error('Invalid response data:', data);
+        showAlert('Invalid key received from server.', 'err');
+        setGenBtn(false); 
+        return;
+      }
+
+      // Success - save and display key
       const expiresAt = data.expiresAt || new Date(Date.now() + KEY_TTL).toISOString();
       saveKey(data.key, expiresAt);
       resetAttempts();
       showKey(data.key, expiresAt);
-      showAlert('Key generated successfully.', 'info');
+      showAlert('Key generated successfully!', 'info');
 
-    } catch {
-      showAlert('Connection failed. Check your internet.', 'err');
+    } catch (error) {
+      console.error('Network error:', error);
+      showAlert('Connection failed. Check your internet and try again.', 'err');
     } finally {
       setGenBtn(false);
     }
