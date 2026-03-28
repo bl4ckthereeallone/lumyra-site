@@ -510,6 +510,10 @@ body::before {
     document.getElementById('alert').className = `alert show ${type}`;
   }
 
+function hideAlert() {
+    document.getElementById('alert').className = 'alert';
+}
+  
   function setGenBtn(loading) {
     const btn = document.getElementById('genBtn');
     btn.disabled = loading;
